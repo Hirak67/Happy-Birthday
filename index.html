@@ -73,7 +73,6 @@
             border-radius: 90%;
             background-color: #ff5f8f;
             border-width: 30px;
-            
         }
 
         /* Music button & popup */
@@ -99,7 +98,7 @@
 
         #musicPopup {
             position: absolute;
-            top: 60px; /* just below the button */
+            top: 60px;
             right: 0;
             transform: translateX(-50%);
             background-color: #ff9cbd;
@@ -150,45 +149,45 @@
         const music = document.getElementById("bgMusic");
         const musicBtn = document.getElementById("musicBtn");
         const popup = document.getElementById("musicPopup");
+        const nameInput = document.getElementById("name");
         let isPlaying = false;
 
-        // Try to play music on first interaction
-        function startMusic() {
-            music.play().then(() => {
+        // Start music when user clicks into input field
+        nameInput.addEventListener("focus", () => {
+            if (!isPlaying) {
+                music.play().catch(() => console.log("User interaction required to play music"));
                 isPlaying = true;
-                musicBtn.textContent = "click";
-            }).catch(() => {
-                console.log("Autoplay blocked");
-            });
-        }
 
-        window.addEventListener("load", startMusic);
+                popup.innerHTML = "Music started 🎶";
+                popup.classList.add("show");
+                setTimeout(() => popup.classList.remove("show"), 2500);
+            }
+        });
 
-        // Music toggle + popup
+        // Music toggle via button
         musicBtn.addEventListener("click", () => {
             if (isPlaying) {
                 music.pause();
-                popup.innerHTML = "Shut up go to surprise 💔";
+                popup.innerHTML = "Music paused 💔";
             } else {
                 music.play();
-                popup.innerHTML = "Hey cutie! Music started 🎶";
+                popup.innerHTML = "Music started 🎶";
             }
             isPlaying = !isPlaying;
 
-            // Show popup briefly
             popup.classList.add("show");
             setTimeout(() => popup.classList.remove("show"), 2500);
         });
 
         // Show birthday message
         function showMessage() {
-            let name = document.getElementById("name").value.trim();
+            let name = nameInput.value.trim();
             let messageBox = document.getElementById("message");
 
             if (name === "") {
                 messageBox.innerHTML = "Please enter a name!";
             } else {
-                messageBox.innerHTML = "Happy Birthday, " + "Sarah (ashuni)"+ " 💗";
+                messageBox.innerHTML = "Happy Birthday, " + "Sarah (ashuni)" + " 💗";
                 messageBox.style.display = "block";
 
                 localStorage.setItem("herName", name);
