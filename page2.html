@@ -50,7 +50,6 @@
     align-items: center;
     opacity: 0;
     transition: opacity 1s ease;
-    position: relative;
   }
 
   /* Heart-shaped image */
@@ -62,20 +61,11 @@
     animation: heartbeat 5s infinite;
     transition: transform 0.3s ease;
     clip-path: polygon(
-    50% 10%,   /* top center */
-    61% 5%,    /* right upper curve */
-    75% 15%,   /* right upper mid */
-    80% 30%,   /* right outer curve */
-    75% 45%,   /* right mid */
-    50% 80%,   /* bottom tip */
-    25% 45%,   /* left mid */
-    20% 30%,   /* left outer curve */
-    25% 15%,   /* left upper mid */
-    39% 5%     /* left upper curve */
-  );
+      50% 10%, 61% 5%, 75% 15%, 80% 30%, 75% 45%, 
+      50% 80%, 25% 45%, 20% 30%, 25% 15%, 39% 5%
+    );
     box-shadow: 0 0 20px #ff4b6e;
-}
-
+  }
 
   #heartBtn.clicked {
     transform: scale(1.3);
@@ -98,24 +88,24 @@
     0% { opacity: 1; transform: translateY(0) scale(1); }
     100% { opacity: 0; transform: translateY(-200px) scale(1.3); }
   }
+
   #heyText {
-  position: absolute;
-  top: 25%; /* adjust as needed */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.3em; /* adjust size */
-  color: #ff4b6e;
-  font-family: 'Dancing Script', cursive;
-  text-shadow: 0 0 20px #ff4b6e, 0 0 20px #ff00ff;
-  z-index: 5;
-  animation: fadeIn 10s ease-out;
-}
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.3em;
+    color: #ff4b6e;
+    font-family: 'Dancing Script', cursive;
+    text-shadow: 0 0 20px #ff4b6e, 0 0 20px #ff00ff;
+    z-index: 5;
+    animation: fadeIn 10s ease-out;
+  }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
 </style>
 </head>
 <body>
@@ -128,9 +118,9 @@
 
 <!-- ========== MAIN HEART PAGE ========== -->
 <div id="main-content">
-  <div id="heyText">wanna know some msg,just click the heart</div>
+  <div id="heyText">wanna know some msg, just click the heart</div>
   <img src="image10.jpeg" alt="Heart" id="heartBtn">
-  <audio id="bgMusic" src="music2.mp3" loop></audio>
+  <audio id="bgMusic" src="music2.mpga" loop></audio>
 </div>
 
 <script>
@@ -203,35 +193,33 @@ const phrases = [
   "Forever yours 💫"
 ];
 
+const music = document.getElementById('bgMusic');
+let musicStarted = false;
+
 heartBtn.addEventListener('click', () => {
+  // Start music on first click
+  if (!musicStarted) {
+    music.play().catch(err => console.log("Autoplay prevented:", err));
+    musicStarted = true;
+  }
+
+  // Heart animation
   heartBtn.classList.add('clicked');
-  setTimeout(()=>heartBtn.classList.remove('clicked'),700);
+  setTimeout(() => heartBtn.classList.remove('clicked'), 700);
+
+  // Show floating phrase
   createPhrase();
 });
 
-function createPhrase(){
+function createPhrase() {
   const phrase = document.createElement('div');
   phrase.className = 'phrase';
-  phrase.innerText = phrases[Math.floor(Math.random()*phrases.length)];
-  phrase.style.left = Math.random()*(window.innerWidth-200)+'px';
+  phrase.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+  phrase.style.left = Math.random() * (window.innerWidth - 200) + 'px';
   phrase.style.bottom = '100px';
   document.body.appendChild(phrase);
-  setTimeout(()=>phrase.remove(),2500);
+  setTimeout(() => phrase.remove(), 2500);
 }
-/* ========= TRANSITION TO MAIN CONTENT ========= */
-setTimeout(() => {
-  const transition = document.getElementById("transition-screen");
-  const main = document.getElementById("main-content");
-  transition.style.opacity = "0";
-  main.style.opacity = "1";
-  setTimeout(()=>transition.remove(), 1500);
-
-  // Start music after transition
-  const music = document.getElementById('bgMusic');
-  music.play().catch(err => console.log("Autoplay prevented:", err));
-
-}, 5000);
-
 </script>
 </body>
 </html>
