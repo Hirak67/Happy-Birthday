@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy for Someone Special</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('image7.jpeg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #fdd3e1;
+            padding: 30px;
+            width: 80%;
+            max-width: 550px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #ff5f8f;
+            margin-bottom: 20px;
+        }
+
+        .name-input {
+            border: 2px solid #ff9cbd;
+            border-radius: 30px;
+            padding: 10px;
+            width: 30%;
+            height: 90%;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #ff9cbd;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        button:hover {
+            background-color: #ff7fa4;
+        }
+
+        .cute-images {
+            display: flex;
+            justify-content: center;
+            gap: 40%;
+            margin-top: 20px;
+        }
+
+        .cute-images img {
+            width: 60px;
+            border-radius: 90%;
+            background-color: #ff5f8f;
+            border-width: 30px;
+            
+        }
+
+        /* Music button & popup */
+        #musicBtn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff7fa4;
+            border: none;
+            border-radius: 50%;
+            width: 65px;
+            height: 45px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #musicBtn:hover {
+            background: #ff5f8f;
+            transform: scale(1.1);
+        }
+
+        #musicPopup {
+            position: absolute;
+            top: 60px; /* just below the button */
+            right: 0;
+            transform: translateX(-50%);
+            background-color: #ff9cbd;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            text-align: center;
+            width: max-content;
+            max-width: 200px;
+        }
+
+        #musicPopup.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h1>Hey enter your name, ohh wait I know it — phir bhi type kar do 💕</h1>
+
+        <!-- Background Music -->
+        <audio id="bgMusic" src="music1.mpga" loop></audio>
+
+        <!-- Music button -->
+        <button id="musicBtn">🎵</button>
+        <div id="musicPopup">Click to play music 🎶</div>
+
+        <input class="name-input" id="name" type="text" placeholder="Enter Name">
+        <br>
+        <button onclick="showMessage()">Surprise</button>
+
+        <p id="message" style="display:none; margin-top:20px; font-size:1.2rem; color:#ff6a88;"></p>
+
+        <div class="cute-images">
+            <img src="image11.jpeg" alt="Cute bear">
+            <img src="images4.jpeg" alt="Cute bunny">
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById("bgMusic");
+        const musicBtn = document.getElementById("musicBtn");
+        const popup = document.getElementById("musicPopup");
+        let isPlaying = false;
+
+        // Try to play music on first interaction
+        function startMusic() {
+            music.play().then(() => {
+                isPlaying = true;
+                musicBtn.textContent = "click";
+            }).catch(() => {
+                console.log("Autoplay blocked");
+            });
+        }
+
+        window.addEventListener("load", startMusic);
+
+        // Music toggle + popup
+        musicBtn.addEventListener("click", () => {
+            if (isPlaying) {
+                music.pause();
+                popup.innerHTML = "Shut up go to surprise 💔";
+            } else {
+                music.play();
+                popup.innerHTML = "Hey cutie! Music started 🎶";
+            }
+            isPlaying = !isPlaying;
+
+            // Show popup briefly
+            popup.classList.add("show");
+            setTimeout(() => popup.classList.remove("show"), 2500);
+        });
+
+        // Show birthday message
+        function showMessage() {
+            let name = document.getElementById("name").value.trim();
+            let messageBox = document.getElementById("message");
+
+            if (name === "") {
+                messageBox.innerHTML = "Please enter a name!";
+            } else {
+                messageBox.innerHTML = "Happy Birthday, " + "Sarah (ashuni)"+ " 💗";
+                messageBox.style.display = "block";
+
+                localStorage.setItem("herName", name);
+
+                setTimeout(() => {
+                    window.location.href = "page2.html";
+                }, 1700);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
