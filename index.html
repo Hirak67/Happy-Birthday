@@ -158,7 +158,7 @@
                 music.play().catch(() => console.log("User interaction required to play music"));
                 isPlaying = true;
 
-                popup.innerHTML = "Music started 🎶";
+                popup.innerHTML = "Happy birthday🎶";
                 popup.classList.add("show");
                 setTimeout(() => popup.classList.remove("show"), 2500);
             }
@@ -168,10 +168,10 @@
         musicBtn.addEventListener("click", () => {
             if (isPlaying) {
                 music.pause();
-                popup.innerHTML = "Music paused 💔";
+                popup.innerHTML = "Why stop the music shut up click the surprise💔";
             } else {
                 music.play();
-                popup.innerHTML = "Music started 🎶";
+                popup.innerHTML = "Happy birthday🎶";
             }
             isPlaying = !isPlaying;
 
